@@ -6,9 +6,9 @@ Final year project.
 - git clone
 - composer install
 - rename .env.example
+- php artisan serve
 
 ### .env configuration
-
 
 - DB_CONNECTION=mysql
 - DB_HOST=127.0.0.1
