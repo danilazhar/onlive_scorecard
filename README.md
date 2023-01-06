@@ -1,10 +1,13 @@
-## Installation
+## Universiti Teknologi Malaysia
+Final year project.
+
+### Installation
 
 - git clone
 - composer install
 - rename .env.example
 
-## .env configuration
+### .env configuration
 
 
 - DB_CONNECTION=mysql
