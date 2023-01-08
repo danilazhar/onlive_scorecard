@@ -45,7 +45,7 @@ Create Department Evaluation Criteria
                                     <select class="form-control {{ $errors->has('subcategory') ? 'is-invalid' : null }}" id="subcategory" name="subcategory" {{ (request()->session()->get('role_id') == '2') ? 'disabled' : false }} data-url="{{ url('/scorecard/selected_subcategory/') }}">
                                         <option value="" selected="selected">--Please Select--</option>
                                         @foreach ($department_subcategories as $subcategory)
-                                            <option value="{{ $subcategory->id }}" data-value="{{ $subcategory->sub_category_id }}">{{ $subcategory->sub_category->name }}</option>
+                                            <option value="{{ $subcategory->id }}" data-value="{{ $subcategory->subcategory_id }}">{{ $subcategory->subcategory->name }}</option>
                                         @endforeach 
                                     </select>
                                     <span class="error invalid-feedback">{{ $errors->first('subcategory') }}</span>
@@ -107,9 +107,9 @@ Create Department Evaluation Criteria
                 $.each(response.subcategories, function(i,obj){
                     subcategory.append(
                         $('<option></option>')
-                            .attr("data-value", obj['sub_category_id'])
+                            .attr("data-value", obj['subcategory_id'])
                             .val(obj['id'])
-                            .html(obj['sub_category']['name'])
+                            .html(obj['subcategory']['name'])
                     );
                 });
             });

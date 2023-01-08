@@ -23,7 +23,7 @@ class DepartmentSubCategoryController extends Controller
             return redirect("/login")->with('error', 'You are not allowed to access');
         }
 
-        $sub_categories = DepartmentSubCategory::orderBy('id', 'desc')->get();     
+        $sub_categories = DepartmentSubCategory::orderBy('id', 'desc')->get();   
         return view('DepartmentSubCategory.index')
             ->with('sub_categories', $sub_categories);
 
@@ -67,7 +67,7 @@ class DepartmentSubCategoryController extends Controller
 
             DepartmentSubCategory::insert([
                 'department_category_id' =>  $request->get('category'),
-                'sub_category_id' =>  $request->get('sub_category'),
+                'subcategory_id' =>  $request->get('sub_category'),
                 'critical' =>  $request->get('critical'),
                 'created_by' => request()->session()->get('user_id'),
                 'created_at' => Carbon::now()
@@ -133,7 +133,7 @@ class DepartmentSubCategoryController extends Controller
             $sub_category = DepartmentSubCategory::find($id);
             $sub_category->update([
                     'department_category_id' =>  $request->get('category'),
-                    'sub_category_id' =>  $request->get('sub_category'),
+                    'subcategory_id' =>  $request->get('sub_category'),
                     'critical' =>  $request->get('critical'),
                     'updated_by' => request()->session()->get('user_id'),
                 ]);
@@ -155,7 +155,7 @@ class DepartmentSubCategoryController extends Controller
             ->whereHas('department_category', function($q) use($id){
                 $q->where('department_id','=', $id);
             })
-            ->with('sub_category:id,name')
+            ->with('subcategory:id,name')
             ->orderBy('id', 'DESC')
             ->get();
             

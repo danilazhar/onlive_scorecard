@@ -42,8 +42,8 @@
                         @foreach ($criterias as $criteria)
                             <tr>
                                 <td>{{ $i++ }}</td>
-                                <td style="width: 400px;">{{ $criteria->sub_category->category->name }}</td>
-                                <td style="width: 400px;">{{ $criteria->sub_category->name }}</td>
+                                <td style="width: 400px;">{{ $criteria->subcategory->category->name }}</td>
+                                <td style="width: 400px;">{{ $criteria->subcategory->name }}</td>
                                 <td style="width: 400px;"><a href="{{ route('criteria.update', ['id' => $criteria->id]) }}">{{ $criteria->name }}</a></td>
                                 <td style="width: 500px;">{{ $criteria->description }}</td>
                                 <td>{{ $criteria->status ? 'Active' : 'Inactive' }}</td>

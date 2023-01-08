@@ -73,5 +73,5 @@
 </section>
 @endsection
 @section('footer-script')
-    <script src="{{ asset('assets/js/DepartmentCriteria.js') }}"></script>
+    <script src="{{ asset('assets/js/Evaluation.js') }}"></script>
 @endsection

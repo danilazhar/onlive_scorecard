@@ -25,7 +25,7 @@ class Criteria extends Model
 
     public static function getCriteriaBySubCategory($id)
     {
-        return Criteria::where("sub_category_id", $id)->get();
+        return Criteria::where("subcategory_id", $id)->get();
     }
 
 

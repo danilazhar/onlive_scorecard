@@ -45,8 +45,8 @@
                                 <td>{{ $i++ }}</td>
                                 <td style="width: 400px;">{{ $subcategory->department_category->department->name }}</td>
                                 <td style="width: 400px;">{{ $subcategory->department_category->category->name }}</td>
-                                <td style="width: 400px;"><a href="{{ route('department_subcategory.update', ['id' => $subcategory->id]) }}">{{ $subcategory->sub_category->name }}</a></td>
-                                <td style="width: 500px;">{{ $subcategory->sub_category->description }}</td>
+                                <td style="width: 400px;"><a href="{{ route('department_subcategory.update', ['id' => $subcategory->id]) }}">{{ $subcategory->subcategory->name }}</a></td>
+                                <td style="width: 500px;">{{ $subcategory->subcategory->description }}</td>
                                 <td style="width: 500px;">{{ $subcategory->critical ? 'Yes' : 'No' }}</td>
                                 <td>{{ $subcategory->status ? 'Active' : 'Inactive' }}</td>
                                 <td style="width: 200px;">

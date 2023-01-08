@@ -119,7 +119,7 @@ class CriteriaController extends Controller
             
             $criteria = Criteria::find($id);
             $criteria->update([
-                    'sub_category_id' =>  $request->get('sub_category'),
+                    'subcategory_id' =>  $request->get('sub_category'),
                     'name' =>  $request->get('name'),
                     'description' =>  $request->get('description'),
                     'updated_by' => request()->session()->get('user_id'),

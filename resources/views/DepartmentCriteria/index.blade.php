@@ -43,7 +43,7 @@
                             <tr>
                                 <td>{{ $i++ }}</td>
                                 <td style="width: 400px;">{{ $criteria->department_subcategory->department_category->department->name }}</td>
-                                <td style="width: 400px;">{{ $criteria->department_subcategory->sub_category->name }}</td>
+                                <td style="width: 400px;">{{ $criteria->department_subcategory->subcategory->name }}</td>
                                 <td style="width: 400px;"><a href="{{ route('department_criteria.update', ['id' => $criteria->id]) }}">{{ $criteria->criteria->name }}</a></td>
                                 <td style="width: 500px;">{{ $criteria->points }}</td>
                                 <td>{{ $criteria->status ? 'Active' : 'Inactive' }}</td>
