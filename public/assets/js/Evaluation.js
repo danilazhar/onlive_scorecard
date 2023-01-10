@@ -97,7 +97,7 @@ function calculateDataCriticalPoints(isCriticalPerformNo) {
         // Check if perform "no" is existed for final score
         let isCriticalPerformNo = false;
         $(".custom-select[data-critical='1']").each(function () {
-            if ($(this).val() === "no") {
+            if ($(this).val() === "0") {
                 isCriticalPerformNo = true;
                 return false
             }
@@ -130,7 +130,6 @@ function calculateDataCriticalPoints(isCriticalPerformNo) {
             setLabelFailed(passLabel);
         } else {
             // Calculate Final Score
-
             let finalScore = calculateFinalScore(totalRef, subScoreTotalRef);
             if ((finalScore >= passRate) && !isCriticalPerformNo) {
                 setLabelSuccess(passLabel);

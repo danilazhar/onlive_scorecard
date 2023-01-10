@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Evaluation;
 use App\Models\Department;
 use App\Models\DepartmentCategory;
+use App\Models\Passrate;
 use Exception;
 use Carbon\Carbon;
 use Validator;
@@ -42,6 +43,7 @@ class EvaluationController extends Controller
         $department_data = DepartmentCategory::getAllCriterias($request->get('department'));
         $category_listing = DepartmentCategory::getCategoryForAllCriteria($request->get('department'));
         $department_critical_category = DepartmentCategory::getAllCriticalCriterias($request->get('department'));
+        $passrate = Passrate::where('department_id', $request->get('department'))->first();
         
         return view('Evaluation.create')
             ->with('users', $users)
@@ -50,7 +52,8 @@ class EvaluationController extends Controller
             ->with('category_listing', $category_listing)
             ->with('department_critical_category', $department_critical_category)
             ->with('department_critical_category_tab', $department_critical_category)
-            ->with('department_critical_category_content', $department_critical_category);
+            ->with('department_critical_category_content', $department_critical_category)
+            ->with('passrate', $passrate->rate);
 
     }
 

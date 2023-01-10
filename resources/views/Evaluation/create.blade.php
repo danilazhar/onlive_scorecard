@@ -20,6 +20,10 @@ Create Employee Evaluation
         </div>
     @endif
     <form action="{{ route('department_criteria.postCreate') }}" method="POST">
+    <input type="hidden" id="passrate" name="passrate"
+               value="@isset($passrate){{ $passrate }}@endisset"/>
+    <input type="hidden" id="scorecard_id" name="scorecard_id" value=""/>
+    <input type="hidden" id="total_score" name="total_score" value="100">
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -97,6 +101,16 @@ Create Employee Evaluation
                                             </th>
                                             <td>
                                                 <span class="final" ref="final">100%</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                OVERALL STATUS
+                                            </th>
+                                            <td>
+                                                <div id="passlabel" class="alert alert-success" role="alert">
+                                                    <b>Passed</b>
+                                                </div>
                                             </td>
                                         </tr>
                                         </tbody>
