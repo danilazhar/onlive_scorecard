@@ -46,6 +46,7 @@ class EvaluationController extends Controller
         $passrate = Passrate::where('department_id', $request->get('department'))->first();
         
         return view('Evaluation.create')
+            ->with('department_id', $request->get('department'))
             ->with('users', $users)
             ->with('evaluator', $evaluator)
             ->with('department_data', $department_data)
@@ -55,6 +56,34 @@ class EvaluationController extends Controller
             ->with('department_critical_category_content', $department_critical_category)
             ->with('passrate', $passrate->rate);
 
+    }
+
+    public function postCreate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [ 
+            'user' => 'required',
+            'evaluation_date' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            return redirect()->route('evaluation.create')
+                    ->withErrors($validator)
+                    ->withInput();
+        }
+
+        try {
+            Evaluation::insert([
+                'department_id' =>  $request->get('department-ID'),
+                'user_id' =>  $request->get('user_id'),
+                'created_by' => request()->session()->get('user_id'),
+                'created_at' => Carbon::now()
+            ]);
+
+            return redirect()->route('evaluation')->with('success', 'Evaluation Scorecard created.');
+        } 
+        catch (Exception $e) {
+            return redirect()->route('evaluation')->with('error', $e->getMessage());
+        }
     }
 
 }

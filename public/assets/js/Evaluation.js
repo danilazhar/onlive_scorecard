@@ -142,5 +142,8 @@ function calculateDataCriticalPoints(isCriticalPerformNo) {
         }
 
     });
+
+    $('body').off('submit', '#new-evaluation-form').on('submit', '#new-evaluation-form', function (e) {
+    });
     
 });

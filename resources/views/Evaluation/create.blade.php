@@ -19,11 +19,12 @@ Create Employee Evaluation
             </div>
         </div>
     @endif
-    <form action="{{ route('department_criteria.postCreate') }}" method="POST">
+    <form action="{{ route('department_criteria.postCreate') }}" id="new-evaluation-form" method="POST">
     <input type="hidden" id="passrate" name="passrate"
                value="@isset($passrate){{ $passrate }}@endisset"/>
-    <input type="hidden" id="scorecard_id" name="scorecard_id" value=""/>
+    <input type="hidden" id="evaluation_id" name="evaluation_id" value=""/>
     <input type="hidden" id="total_score" name="total_score" value="100">
+    <input type="hidden" id="department_id" name="department_id" value="{{ $department_id }}"/>
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -34,7 +35,7 @@ Create Employee Evaluation
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="employee">Employee</label>
-                                            <select class="form-control {{ $errors->has('user') ? 'is-invalid' : null }}" id="user" name="user">
+                                            <select class="form-control {{ $errors->has('user') ? 'is-invalid' : null }}" id="user_id" name="user_id">
                                                 <option value="" selected="selected">--Please Select--</option>      
                                                 @foreach ($users as $user)
                                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
