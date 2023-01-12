@@ -71,15 +71,11 @@ class EvaluationController extends Controller
                     ->withInput();
         }
 
-        try {
-            Evaluation::insert([
-                'department_id' =>  $request->get('department-ID'),
-                'user_id' =>  $request->get('user_id'),
-                'created_by' => request()->session()->get('user_id'),
-                'created_at' => Carbon::now()
-            ]);
+        $data = $request->input('data');
 
-            return redirect()->route('evaluation')->with('success', 'Evaluation Scorecard created.');
+        try {
+            Evaluation::create_evaluation($data);
+            return response()->json(['status' => 1, 'message' => 'Evaluation Created']);
         } 
         catch (Exception $e) {
             return redirect()->route('evaluation')->with('error', $e->getMessage());

@@ -144,6 +144,40 @@ function calculateDataCriticalPoints(isCriticalPerformNo) {
     });
 
     $('body').off('submit', '#new-evaluation-form').on('submit', '#new-evaluation-form', function (e) {
+        e.preventDefault();
+
+        let url = $(this).attr('action');
+        let evaluation_form = $('#new-evaluation-form');
+
+        let dataArray = $(this).serializeArray().map(function (criteria) {
+            let name = criteria.name;
+            let id = name.substr(name.lastIndexOf("_") + 1);
+            let val = criteria.value;
+            return {id, name, val};
+        });
+
+        console.log(dataArray);
+
+        let data = {};
+        for (let criteria of dataArray) {
+
+            if (typeof data[criteria.id] === 'undefined') {
+                data[criteria.id] = {};
+            }
+            data[criteria.id][criteria.name] = criteria.val;
+        }
+
+        data = {data: data};
+
+        $.post(url, data, function (response) {
+            if (response.status) {
+            alertify.success(response.message);
+            evaluation_form.find('input').val('');
+            evaluation_form.find('textarea').val('');
+            window.location.replace("http://stackoverflow.com");
+            }
+        });
+
     });
     
 });

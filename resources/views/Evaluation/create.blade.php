@@ -19,7 +19,7 @@ Create Employee Evaluation
             </div>
         </div>
     @endif
-    <form action="{{ route('department_criteria.postCreate') }}" id="new-evaluation-form" method="POST">
+    <form action="{{ route('evaluation.postCreate') }}" returnUrl="{{ route('evaluation') }}" id="new-evaluation-form" method="POST">
     <input type="hidden" id="passrate" name="passrate"
                value="@isset($passrate){{ $passrate }}@endisset"/>
     <input type="hidden" id="evaluation_id" name="evaluation_id" value=""/>
@@ -29,8 +29,9 @@ Create Employee Evaluation
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="card">
+                        <div class="card card-primary card-outline">
                             <div class="card-body">
+                            @csrf
                                 <div class="d-flex">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -55,14 +56,11 @@ Create Employee Evaluation
                                         </div>
                                     </div>
                                 </div>
-                                <!-- /.d-flex -->
                             </div>
                         </div>
-                        <!-- /.card -->
                     </div>
-                    <!-- /.col-md-6 -->
                     <div class="col-lg-6">
-                        <div class="card">
+                        <div class="card card-primary card-outline">
                             <div class="card-body">
                                 <div class="d-flex">
                                 <div class="col-md-12">
@@ -118,7 +116,6 @@ Create Employee Evaluation
                                     </table>
                                 </div>
                             </div>
-                            <!-- /.d-flex -->
                         </div>
                         </div>
                     </div>
@@ -126,7 +123,7 @@ Create Employee Evaluation
                 <div class="row">
                     @foreach($department_critical_category_content['categories'] as $categories_critical)
                         <div class="col-lg-12">
-                            <div class="card">
+                            <div class="card card-danger card-outline">
                             <div class="card-header border-0">
                                 <div class="d-flex justify-content-between">
                                 <h3 class="card-title"><strong>{{ $categories_critical->category->name }}</strong></h3>
@@ -208,7 +205,7 @@ Create Employee Evaluation
                 <div class="row">
                     @foreach($department_data['categories'] as $department_categories)
                         <div id="category-{{ $department_categories->id }}" class="col-lg-12">
-                            <div class="card">
+                            <div class="card card-success card-outline">
                             <div class="card-header border-0">
                                 <div class="d-flex justify-content-between">
                                 <h3 class="card-title"><strong>{{ $department_categories->category->name }}</strong></h3>
@@ -304,7 +301,7 @@ Create Employee Evaluation
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="card">
+                        <div class="card card-primary card-outline">
                             <div class="card-body">
                                 <div class="d-flex">
                                     <div class="col-md-6">
