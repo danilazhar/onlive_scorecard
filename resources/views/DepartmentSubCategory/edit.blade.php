@@ -69,8 +69,8 @@ Edit Department Evaluation Sub Category
                                     <label for="department">Critical</label>
                                     <select class="form-control {{ $errors->has('critical') ? 'is-invalid' : null }}" id="critical" name="critical">
                                         <option value="" selected="selected">--Please Select--</option>                                  
-                                        <option value="1" {{ $subcategory->critical == 1 ? 'selected' : false }}>Yes</option>                                  
-                                        <option value="0" {{ $subcategory->critical == 0 ? 'selected' : false }}>No</option>                                  
+                                        <option value="1" {{ $subcategory->critical == 'yes' ? 'selected' : false }}>Yes</option>                                  
+                                        <option value="0" {{ $subcategory->critical == 'no' ? 'selected' : false }}>No</option>                                  
                                     </select>
                                     <span class="error invalid-feedback">{{ $errors->first('critical') }}</span>
                                 </div>

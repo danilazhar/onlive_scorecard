@@ -2,6 +2,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class Evaluation extends Model
 {
@@ -18,6 +20,7 @@ class Evaluation extends Model
         'supervisor_id',
         'date_of_audit',
         'total_score',
+        'result',
         'remarks',
         'status',
         'created_by',
@@ -33,32 +36,26 @@ class Evaluation extends Model
     {
         DB::beginTransaction();
 
-        $evaluation_id = Evaluation::insertEvaluation($data);
+        $evaluation_id = Evaluation::insertGetId([
+            'department_id' =>  $data['id']['department_id'],
+            'user_id' =>  $data['id']['user_id'],
+            'supervisor_id' =>  request()->session()->get('user_id'),
+            'date_of_audit' =>  Carbon::now(),
+            'total_score' =>  $data['score']['total_score'],
+            'result' =>  $data['result']['result'],
+            'remarks' =>  $data['remarks']['remarks'],
+            'created_by' => request()->session()->get('user_id'),
+            'created_at' => Carbon::now()
+        ]);
+
+
         if (!$evaluation_id) {
             throw new Exception("Failed to create evaluation");
         }
 
-        Evaluation::insertScorecardPoints($evaluation_id, $data);
+        Evaluation::insertEvaluationPoints($evaluation_id, $data);
 
         DB::commit();
-    }
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-    private static function insertEvaluation($data)
-    {
-        Evaluation::insertGetId([
-                'department_id' =>  $data['id']['department_id'],
-                'user_id' =>  $data['id']['user_id'],
-                'supervisor_id' =>  $data['id']['evaluator'],
-                'date_of_audit' =>  $data['id']['evaluation_date'],
-                'total_score' =>  $data['id']['total_score'],
-                'remarks' =>  $data['id']['total_sremarkscore'],
-                'created_by' => request()->session()->get('user_id'),
-                'created_at' => Carbon::now()
-            ]);
     }
 
     /**
@@ -75,7 +72,7 @@ class Evaluation extends Model
                     $point_achieved = $data_list['points_achieved_criterias_' . $id];
                 }
 
-                EvaluationPoints::create([
+                EvaluationPoint::create([
                     'evaluation_id' => $evaluation_id,
                     'department_criteria_id' => $criteria_id,
                     'points' => $point_achieved,
@@ -87,5 +84,20 @@ class Evaluation extends Model
                 ]);
             }
         }
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function evaluator()
+    {
+        return $this->belongsTo(User::class, 'supervisor_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,);
     }
 }

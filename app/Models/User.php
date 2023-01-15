@@ -79,4 +79,14 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'updated_by');
     }
 
+    public function evaluations()
+    {
+        return $this->hasMany(Category::class, 'supervisor_id');
+    }
+
+    public function user_evaluations()
+    {
+        return $this->hasMany(Evaluation::class);
+    }
+
 }

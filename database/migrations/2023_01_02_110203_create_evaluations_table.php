@@ -22,6 +22,7 @@ class CreateEvaluationsTable extends Migration
             $table->timestamp('start_time')->nullable();
             $table->timestamp('end_time')->nullable();
             $table->integer('total_score');
+            $table->enum('result', [1, 0])->default(1);
             $table->text('remarks')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();

@@ -44,28 +44,36 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Evaluation ID</th>
                         <th>Department</th>
                         <th>Supervisor</th>
                         <th>Employee</th>
                         <th>Evaluation Date</th>
                         <th>Points</th>
+                        <th>Result</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @php $i=1; @endphp
+                    @foreach ($evaluations as $evaluation)
                         <tr>
-                            <td></td>
-                            <td style="width: 400px;"></td>
-                            <td style="width: 400px;"></td>
-                            <td style="width: 400px;"></td>
-                            <td style="width: 500px;"></td>
-                            <td style="width: 500px;"></td>
-                            <td></td>
-                            <td></td>
-                            <td style="width: 200px;"></td>
+                            <td>{{ $i++ }}</td>
+                            <td style="width: 400px;">{{ $evaluation->department->name }}</td>
+                            <td style="width: 400px;">{{ $evaluation->evaluator->name }}</td>
+                            <td style="width: 500px;">{{ $evaluation->user->name }}</td>
+                            <td style="width: 500px;">{{ ($evaluation->date_of_audit) ? date('d-m-Y h:i A', strtotime($evaluation->date_of_audit)) : '' }}</td>
+                            <td style="width: 100px;">{{ $evaluation->total_score }}</td>
+                            <td style="width: 100px;">{{ $evaluation->result ? 'Passed' : 'Failed' }}</td>
+                            <td>{{ ($evaluation->status == 0) ? "Draft" : (($evaluation->status == 1) ? "Saved" : "Deleted") }}</td>
+                            <td style="width: 200px;">
+                                <a href="{{ route('evaluation.update', ['id' => $evaluation->id]) }}" class="btn btn-primary btn-sm edit"><i class="fas fa-pencil-alt"></i></a>
+                                @if(request()->session()->get('role_id') == 1 && $evaluation->status == 0)
+                                <a onclick="return confirm('Are you sure?')" href="{{ route('evaluation.delete', ['id' => $evaluation->id]) }}" class="btn btn-danger btn-sm delete"><i class="fas fa-trash-alt"></i></a>
+                                @endif
+                            </td>
                         </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

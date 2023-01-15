@@ -37,7 +37,7 @@ class DepartmentCategory extends Model
                     ->whereHas('department_category', function ($queryCategory) use ($department_id) {
                         $queryCategory->where('department_id', '=', $department_id);
                     });
-                $querySubCategory->where('critical', false);
+                $querySubCategory->where('critical', 'no');
             })
             ->where('status', true)
             ->orderBy('id', 'ASC')
@@ -98,7 +98,7 @@ class DepartmentCategory extends Model
                     ->whereHas('department_category', function ($queryCategory) use ($department_id) {
                         $queryCategory->where('department_id', '=', $department_id);
                     });
-                $querySubCategory->where('critical', true);
+                $querySubCategory->where('critical', 'yes');
             })
             ->orderBy('id', 'ASC')
             ->get();

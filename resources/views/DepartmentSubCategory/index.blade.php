@@ -47,7 +47,7 @@
                                 <td style="width: 400px;">{{ $subcategory->department_category->category->name }}</td>
                                 <td style="width: 400px;"><a href="{{ route('department_subcategory.update', ['id' => $subcategory->id]) }}">{{ $subcategory->subcategory->name }}</a></td>
                                 <td style="width: 500px;">{{ $subcategory->subcategory->description }}</td>
-                                <td style="width: 500px;">{{ $subcategory->critical ? 'Yes' : 'No' }}</td>
+                                <td style="width: 500px;">{{ $subcategory->critical == 'yes' ? 'Yes' : 'No' }}</td>
                                 <td>{{ $subcategory->status ? 'Active' : 'Inactive' }}</td>
                                 <td style="width: 200px;">
                                     <a href="{{ route('department_subcategory.update', ['id' => $subcategory->id]) }}" class="btn btn-primary btn-sm edit"><i class="fas fa-pencil-alt"></i></a>

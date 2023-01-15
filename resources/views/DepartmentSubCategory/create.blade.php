@@ -67,8 +67,8 @@ Create Department Evaluation Sub Category
                                     <label for="department">Critical</label>
                                     <select class="form-control {{ $errors->has('critical') ? 'is-invalid' : null }}" id="critical" name="critical">
                                         <option value="" selected="selected">--Please Select--</option>                                  
-                                        <option value="1">Yes</option>                                  
-                                        <option value="0">No</option>                                  
+                                        <option value="yes">Yes</option>                                  
+                                        <option value="no">No</option>                                  
                                     </select>
                                     <span class="error invalid-feedback">{{ $errors->first('critical') }}</span>
                                 </div>

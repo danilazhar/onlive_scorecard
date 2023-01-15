@@ -47,4 +47,9 @@ class Department extends Model
     {
         return $this->hasMany(DepartmentCategory::class);
     }
+
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class);
+    }
 }

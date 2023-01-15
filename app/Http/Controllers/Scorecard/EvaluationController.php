@@ -23,7 +23,7 @@ class EvaluationController extends Controller
             return redirect("/login")->with('error', 'You are not allowed to access');
         }
 
-        $evaluations = Evaluation::where('status', true)->orderBy('id', 'desc')->get();     
+        $evaluations = Evaluation::where('status', '!=', '3')->orderBy('id', 'desc')->get();     
         $departments = Department::where('status', true)->orderBy('id', 'desc')->get();     
 
         return view('Evaluation.index')
@@ -40,6 +40,7 @@ class EvaluationController extends Controller
 
         $users = User::where('department_id', $request->get('department'))->where('status', true)->orderBy('id', 'desc')->get(); 
         $evaluator = User::where('id', request()->session()->get('user_id'))->first();
+        $department = Department::where('id', $request->get('department'))->first();
         $department_data = DepartmentCategory::getAllCriterias($request->get('department'));
         $category_listing = DepartmentCategory::getCategoryForAllCriteria($request->get('department'));
         $department_critical_category = DepartmentCategory::getAllCriticalCriterias($request->get('department'));
@@ -49,6 +50,7 @@ class EvaluationController extends Controller
             ->with('department_id', $request->get('department'))
             ->with('users', $users)
             ->with('evaluator', $evaluator)
+            ->with('department', $department)
             ->with('department_data', $department_data)
             ->with('category_listing', $category_listing)
             ->with('department_critical_category', $department_critical_category)
@@ -60,17 +62,6 @@ class EvaluationController extends Controller
 
     public function postCreate(Request $request)
     {
-        $validator = Validator::make($request->all(), [ 
-            'user' => 'required',
-            'evaluation_date' => 'required',
-        ]);
-
-        if($validator->fails()) {
-            return redirect()->route('evaluation.create')
-                    ->withErrors($validator)
-                    ->withInput();
-        }
-
         $data = $request->input('data');
 
         try {

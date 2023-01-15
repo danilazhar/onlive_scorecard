@@ -6,17 +6,32 @@ $(document).ready(function(){
     });
 
     $('a.create').click(function (){
-        clearForm();
+        alert("New evaluation");
+    });
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        },
+    });
+
+    $("#department").change(function() {
+        var department_id = $(this).val();
+        $("#create-evaluation").attr("data-department", department_id);
     });
 
     //Function to calculate the final score.
 function calculateFinalScore(totalRef, subScoreTotalRef) {
     let finalScore = 0;
     let count = 0;
+    console.log(totalRef + " " + subScoreTotalRef);
     $(totalRef + " " + subScoreTotalRef).each(function () {
         finalScore += parseInt($(this).html());
         count++;
     });
+
+    console.log('finalScore', finalScore);
+    console.log('count', count);
 
     //Display the final score as a percentage value
     $("#total_score").val(convertPercentage(finalScore, 100 * count));
@@ -28,6 +43,7 @@ function setLabelFailed(label) {
     label.removeClass("alert-success").addClass("alert-danger");
     label.css("font-weight", "bold");
     label.html("Failed");
+    $('#result').val(0);
 }
 
 //Function to set the Passed label
@@ -35,6 +51,7 @@ function setLabelSuccess(label) {
     label.removeClass("alert-danger").addClass("alert-success");
     label.css("font-weight", "bold");
     label.html("Passed");
+    $('#result').val(1);
 }
 
 function setPointsAchieved(pointsElement, targetElement) {
@@ -55,6 +72,7 @@ function convertPercentage(value, totalValue) {
 function calculatePoints(subScoreRef, achievedRef, totalRef) {
     let value = 0;
     let totalValue = 0;
+
     $(subScoreRef + " " + achievedRef).each(function () {
         value += parseInt($(this).val());
     });
@@ -89,15 +107,15 @@ function calculateDataCriticalPoints(isCriticalPerformNo) {
         let achievedRef = ".points_achieved_criterias";
         let pointRef = ".points_criterias";
         let totalSubScoreRef = $("[ref='category-" + subScoreId + "']");
-        let isDataCritical = $(this).attr("data-critical") === "1";
+        let isDataCritical = $(this).attr("data-critical") === "yes";
 
         let passLabel = $("#passlabel");
         let passRate = $('#passrate').val();
 
         // Check if perform "no" is existed for final score
         let isCriticalPerformNo = false;
-        $(".custom-select[data-critical='1']").each(function () {
-            if ($(this).val() === "0") {
+        $(".custom-select[data-critical='yes']").each(function () {
+            if ($(this).val() === "no") {
                 isCriticalPerformNo = true;
                 return false
             }
@@ -147,7 +165,7 @@ function calculateDataCriticalPoints(isCriticalPerformNo) {
         e.preventDefault();
 
         let url = $(this).attr('action');
-        let evaluation_form = $('#new-evaluation-form');
+        let returnUrl = $(this).attr('returnUrl');
 
         let dataArray = $(this).serializeArray().map(function (criteria) {
             let name = criteria.name;
@@ -155,8 +173,6 @@ function calculateDataCriticalPoints(isCriticalPerformNo) {
             let val = criteria.value;
             return {id, name, val};
         });
-
-        console.log(dataArray);
 
         let data = {};
         for (let criteria of dataArray) {
@@ -171,10 +187,8 @@ function calculateDataCriticalPoints(isCriticalPerformNo) {
 
         $.post(url, data, function (response) {
             if (response.status) {
-            alertify.success(response.message);
-            evaluation_form.find('input').val('');
-            evaluation_form.find('textarea').val('');
-            window.location.replace("http://stackoverflow.com");
+            alert(response.message);
+            window.location.replace(returnUrl);
             }
         });
 

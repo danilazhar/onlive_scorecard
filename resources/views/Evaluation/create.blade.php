@@ -19,12 +19,13 @@ Create Employee Evaluation
             </div>
         </div>
     @endif
-    <form action="{{ route('evaluation.postCreate') }}" returnUrl="{{ route('evaluation') }}" id="new-evaluation-form" method="POST">
+    <form action="{{ route('evaluation.postCreate') }}" returnUrl="{{ route('evaluation') }}" id="new-evaluation-form" type="post">
     <input type="hidden" id="passrate" name="passrate"
                value="@isset($passrate){{ $passrate }}@endisset"/>
     <input type="hidden" id="evaluation_id" name="evaluation_id" value=""/>
     <input type="hidden" id="total_score" name="total_score" value="100">
     <input type="hidden" id="department_id" name="department_id" value="{{ $department_id }}"/>
+    <input type="hidden" id="result" name="result" value="1"/>
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -32,6 +33,19 @@ Create Employee Evaluation
                         <div class="card card-primary card-outline">
                             <div class="card-body">
                             @csrf
+                                <div class="d-flex">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="evaluator">Department</label>
+                                            <input type="text"
+                                                id="department"
+                                                name="department"
+                                                class="form-control"
+                                                readonly
+                                                value="{{ $department->name; }}"/>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="d-flex">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -43,16 +57,6 @@ Create Employee Evaluation
                                                 @endforeach                                    
                                             </select>
                                             <span class="error invalid-feedback">{{ $errors->first('user') }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="evaluation_date">Date of Evaluation</label>
-                                            <input type="date" name="evaluation_date" class="form-control {{ $errors->has('evaluation_date') ? 'is-invalid' : null }}"
-                                                id="evaluation_date" placeholder="Evaluation date"  value="{{old('old_evaluation_date')}}">
-                                            <span class="error invalid-feedback">{{ $errors->first('evaluation_date') }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -237,7 +241,7 @@ Create Employee Evaluation
                                                     categoryId="{{ $department_subcategories->department_category_id }}"
                                                     id="subcategory_{{ $department_criteria->id }}"
                                                     name="subcategory_{{ $department_criteria->id }}"
-                                                    value="{{ $department_criteria->campaign_subcategory_id }}"/>
+                                                    value="{{ $department_criteria->department_subcategory_id }}"/>
                                             <input type="hidden"
                                                     categoryId="{{ $department_subcategories->department_category_id }}"
                                                     id="is_critical_{{ $department_criteria->id }}"
@@ -251,7 +255,7 @@ Create Employee Evaluation
                                                         categoryId="{{ $department_subcategories->department_category_id }}"
                                                         id="points_criterias_{{ $department_criteria->id }}"
                                                         name="points_criterias_{{ $department_criteria->id }}"
-                                                        class="form-control form-control-sm points_criterias hide"
+                                                        class="form-control form-control-sm points_criterias  @if ($department_subcategories->critical == 'yes') hide @endif"
                                                         data-critical="{{ $department_subcategories->critical }}"
                                                         readonly
                                                         value="{{ $department_criteria->points }}"/>
@@ -261,7 +265,7 @@ Create Employee Evaluation
                                                         categoryId="{{ $department_subcategories->department_category_id }}"
                                                         id="points_achieved_criterias_{{ $department_criteria->id }}"
                                                         name="points_achieved_criterias_{{ $department_criteria->id }}"
-                                                        class="form-control form-control-sm points_achieved_criterias hide"
+                                                        class="form-control form-control-sm points_achieved_criterias @if ($department_subcategories->critical == 'yes') hide @endif"
                                                         data-original="{{ $department_criteria->points }}"
                                                         data-critical="{{ $department_subcategories->critical }}"
                                                         readonly
