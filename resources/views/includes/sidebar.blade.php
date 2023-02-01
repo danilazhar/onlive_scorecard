@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link text-center">
-        <span class="brand-text font-weight-light"><b>Online Scorecard</b></span>
+        <span class="brand-text font-weight-light"><b>Online Scoresheet</b></span>
     </a>
 
     <!-- Sidebar -->
@@ -40,7 +40,7 @@
             <li class="nav-item {{ (request()->is('scorecard/passrate*', 'scorecard/category*', 'scorecard/sub_category*', 'scorecard/criteria*')) ? 'menu-is-opening menu-open' : '' }}">
                 <a href="#" class="nav-link {{ (request()->is('scorecard/passrate*', 'scorecard/category*', 'scorecard/sub_category*', 'scorecard/criteria*')) ? 'menu-is-opening menu-open active' : '' }}">
                 <i class="nav-icon fas fa-plus-square"></i>
-                    <p>Scorecard Setup</p>
+                    <p>Scoresheet Setup</p>
                     <i class="right fas fa-angle-left"></i>
                 </a>
                 <ul class="nav nav-treeview">

@@ -44,7 +44,7 @@ Edit Department Evaluation Criteria
                                     <select class="form-control {{ $errors->has('subcategory') ? 'is-invalid' : null }}" id="subcategory" name="subcategory"  data-url="{{ url('/scorecard/selected_subcategory/') }}">
                                         <option value="" selected="selected">--Please Select--</option>
                                         @foreach ($department_subcategories as $subcategory)
-                                            <option value="{{ $subcategory->id }}" data-value="{{ $subcategory->sub_category_id }}" {{ $criteria->department_subcategory_id == $subcategory->id ? 'selected' : false }}>{{ $subcategory->sub_category->name }}</option>
+                                            <option value="{{ $subcategory->id }}" data-value="{{ $subcategory->sub_category_id }}" {{ $criteria->department_subcategory_id == $subcategory->id ? 'selected' : false }}>{{ $subcategory->subcategory->name }}</option>
                                         @endforeach 
                                     </select>
                                     <span class="error invalid-feedback">{{ $errors->first('subcategory') }}</span>

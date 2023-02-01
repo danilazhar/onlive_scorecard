@@ -33,7 +33,6 @@
                             <th>Category</th>
                             <th>Name</th>
                             <th>Description</th>
-                            <th>Critical</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
