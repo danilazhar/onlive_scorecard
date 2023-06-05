@@ -44,4 +44,9 @@ class DepartmentCriteria extends Model
         return $this->belongsTo(Criteria::class);
     }
 
+    public function evaluation_points()
+    {
+        return $this->hasMany(EvaluationPoint::class);
+    }
+
 }

@@ -23,4 +23,14 @@ class EvaluationPoint extends Model
         'updated_by',
         'updated_at'
     ];
+
+    public function evaluation()
+    {
+        return $this->belongsTo(Evaluation::class);
+    }
+
+    public function department_criteria()
+    {
+        return $this->belongsTo(DepartmentCriteria::class, 'department_criteria_id');
+    }
 }

@@ -115,5 +115,7 @@ Route::post('/scorecard/evaluation/create', [EvaluationController::class, 'creat
 Route::post('/scorecard/evaluation/postCreate', [EvaluationController::class, 'postCreate'])->name('evaluation.postCreate');
 Route::get('/scorecard/evaluation/{id}', [EvaluationController::class, 'update'])->name('evaluation.update');
 Route::get('/scorecard/evaluation/delete/{id}', [EvaluationController::class, 'delete'])->name('evaluation.delete');
+Route::post('/scorecard/evaluation/{id}', [EvaluationController::class, 'postUpdate'])->name('evaluation.postUpdate');
+
 
 

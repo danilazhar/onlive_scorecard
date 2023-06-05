@@ -73,4 +73,70 @@ class EvaluationController extends Controller
         }
     }
 
+    public function update(int $id) 
+    {
+
+        if(!Auth::check()){
+            return redirect("/login")->with('error', 'You are not allowed to access');
+        }
+
+        $evaluation = Evaluation::where('id', $id)->first();
+        $department = Department::where('id', $evaluation->department_id)->first();
+        $users = User::where('department_id', $evaluation->department_id)->where('status', true)->orderBy('id', 'desc')->get(); 
+        $evaluator = User::where('id', request()->session()->get('user_id'))->first();
+        $department = Department::where('id', $evaluation->department_id)->first();
+        // $department_data = DepartmentCategory::getAllCriterias($evaluation->department_id);
+
+        $eval_data = [];
+
+        $categories = [];
+        $subcategories = [];
+        $criterias = [];
+
+        foreach ($evaluation->evaluation_points as $eval) {
+            $criteria = $eval->department_criteria;
+            $subcategory = $criteria->department_subcategory;
+            $category = $subcategory->department_category;
+            if (!key_exists($category->id, $categories)) {
+                $categories[$category->id] = $category;
+            }
+            if (!key_exists($subcategory->id, $subcategories)) {
+                $subcategories[$subcategory->id] = $subcategory;
+            }
+            if (!key_exists($criteria->id, $criterias)) {
+                $criterias[$criteria->id] = $criteria;
+            }
+        }
+        $eval_data = [
+            'categories' => $categories,
+            'subcategories' => $subcategories,
+            'criterias' => $criterias
+        ];
+
+        $department_data = $eval_data;
+
+        $category_listing = DepartmentCategory::getCategoryForAllCriteria($evaluation->department_id);
+        $department_critical_category = DepartmentCategory::getAllCriticalCriterias($evaluation->department_id);
+        $passrate = Passrate::where('department_id', $evaluation->department_id)->first();
+
+        return view('Evaluation.edit')
+            ->with('users', $users)
+            ->with('evaluation', $evaluation)
+            ->with('evaluation_points', $evaluation->evaluation_points)
+            ->with('evaluator', $evaluator)
+            ->with('department', $department)
+            ->with('department_data', $department_data)
+            ->with('category_listing', $category_listing)
+            ->with('department_critical_category', $department_critical_category)
+            ->with('department_critical_category_tab', $department_critical_category)
+            ->with('department_critical_category_content', $department_critical_category)
+            ->with('passrate', $passrate->rate);
+
+    }
+
+    public function postUpdate(Request $request, int $id)
+    {
+        
+    }
+
 }
