@@ -10,6 +10,9 @@ class EvaluationPoint extends Model
      *
      * @var string[]
      */
+
+    protected $table = 'evaluation_points';
+
     protected $fillable = [
         'evaluation_id',
         'department_criteria_id',

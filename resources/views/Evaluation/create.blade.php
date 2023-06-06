@@ -20,8 +20,7 @@ Create Employee Evaluation
         </div>
     @endif
     <form action="{{ route('evaluation.postCreate') }}" returnUrl="{{ route('evaluation') }}" id="new-evaluation-form" type="post">
-    <input type="hidden" id="passrate" name="passrate"
-               value="@isset($passrate){{ $passrate }}@endisset"/>
+    <input type="hidden" id="passrate" name="passrate" value="@isset($passrate){{ $passrate }}@endisset"/>
     <input type="hidden" id="evaluation_id" name="evaluation_id" value=""/>
     <input type="hidden" id="total_score" name="total_score" value="100">
     <input type="hidden" id="department_id" name="department_id" value="{{ $department_id }}"/>
@@ -150,6 +149,21 @@ Create Employee Evaluation
                                             <tbody>
                                             @foreach($subcategories_critical->department_criterias as $critical_criteria)
                                             <tr>
+                                                <input type="hidden"
+                                                    categoryId="{{ $subcategories_critical->department_category_id }}"
+                                                    id="category_{{ $critical_criteria->id }}"
+                                                    name="category_{{ $critical_criteria->id }}"
+                                                    value="{{ $subcategories_critical->department_category_id }}"/>
+                                                <input type="hidden"
+                                                    categoryId="{{ $subcategories_critical->department_category_id }}"
+                                                    id="subcategory_{{ $critical_criteria->id }}"
+                                                    name="subcategory_{{ $critical_criteria->id }}"
+                                                    value="{{ $critical_criteria->department_subcategory_id }}"/>
+                                                <input type="hidden"
+                                                    categoryId="{{ $subcategories_critical->department_category_id }}"
+                                                    id="is_critical_{{ $subcategories_critical->id }}"
+                                                    name="is_critical_{{ $subcategories_critical->id }}"
+                                                    value="{{ $subcategories_critical->critical }}"/>
                                                 <td class="sm">
                                                     {{ $critical_criteria->criteria->name }}
                                                 </td>

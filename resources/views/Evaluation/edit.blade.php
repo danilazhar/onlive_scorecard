@@ -19,7 +19,7 @@ Edi Employee Evaluation
             </div>
         </div>
     @endif
-    <form action="{{ route('evaluation.postUpdate', ['id' => $evaluation->id]) }}" method="POST">
+    <form action="{{ route('evaluation.postUpdate', ['id' => $evaluation->id]) }}"  id="edit-evaluation-form" method="POST">
     <input type="hidden" id="passrate" name="passrate"
                value="{{$passrate}}"/>
     <input type="hidden" id="evaluation_id" name="evaluation_id" value="{{$evaluation->id}}"/>
@@ -148,53 +148,70 @@ Edi Employee Evaluation
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($subcategories_critical->department_criterias as $critical_criteria)
+                                            @foreach($evaluation_points_critical as $critical_evaluations)
+                                            @if($critical_evaluations->department_criteria->department_subcategory_id == $subcategories_critical->id)
                                             <tr>
+                                            <input type="hidden"
+                                                    categoryId="{{ $subcategories_critical->department_category_id }}"
+                                                    id="category_{{ $critical_evaluations->id }}"
+                                                    name="category_{{ $critical_evaluations->id }}"
+                                                    value="{{ $subcategories_critical->department_category_id }}"/>
+                                                <input type="hidden"
+                                                    categoryId="{{ $subcategories_critical->department_category_id }}"
+                                                    id="subcategory_{{ $critical_evaluations->id }}"
+                                                    name="subcategory_{{ $critical_evaluations->id }}"
+                                                    value="{{ $critical_evaluations->department_criteria->department_subcategory_id }}"/>
+                                                <input type="hidden"
+                                                    categoryId="{{ $subcategories_critical->department_category_id }}"
+                                                    id="is_critical_{{ $critical_evaluations->id }}"
+                                                    name="is_critical_{{ $critical_evaluations->id }}"
+                                                    value="{{ $subcategories_critical->critical }}"/>
                                                 <td class="sm">
-                                                    {{ $critical_criteria->criteria->name }}
+                                                    {{ $critical_evaluations->department_criteria->criteria->name }}
                                                 </td>
                                                 <td class="sm">
                                                     <input type="text"
-                                                            categoryId="{{ $subcategories_critical->department_category_id }}"
-                                                            id="points_criterias_{{ $critical_criteria->id }}"
-                                                            name="points_criterias_{{ $critical_criteria->id }}"
+                                                            categoryId="{{ $critical_evaluations->department_category_id }}"
+                                                            id="points_criterias_{{ $critical_evaluations->id }}"
+                                                            name="points_criterias_{{ $critical_evaluations->id }}"
                                                             class="form-control form-control-sm points_criterias hide"
-                                                            data-critical="{{ $subcategories_critical->critical }}"
+                                                            data-critical="{{ $critical_evaluations->department_criteria->department_subcategory->critical }}"
                                                             readonly
-                                                            value="{{ $critical_criteria->points }}"/>
+                                                            value="{{ $critical_evaluations->department_criteria->points }}"/>
                                                 </td>
                                                 <td class="sm">
                                                     <input type="text"
-                                                            categoryId="{{ $subcategories_critical->department_category_id }}"
-                                                            id="points_achieved_criterias_{{ $critical_criteria->id }}"
-                                                            name="points_achieved_criterias_{{ $critical_criteria->id }}"
+                                                            categoryId="{{ $critical_evaluations->department_category_id }}"
+                                                            id="points_achieved_criterias_{{ $critical_evaluations->id }}"
+                                                            name="points_achieved_criterias_{{ $critical_evaluations->id }}"
                                                             class="form-control form-control-sm points_achieved_criterias hide"
-                                                            data-original="{{ $subcategories_critical->points }}"
-                                                            data-critical="{{ $subcategories_critical->critical }}"
+                                                            data-original="{{ $critical_evaluations->points }}"
+                                                            data-critical="{{ $critical_evaluations->department_criteria->department_subcategory->critical }}"
                                                             readonly
-                                                            value=""/>
+                                                            value="{{ $critical_evaluations->points }}"/>
                                                 </td>
                                                 <td class="sm">
                                                     <select class="form-control-sm is-perform"
-                                                            data-critical="{{ $subcategories_critical->critical }}"
+                                                            data-critical="{{ $critical_evaluations->department_criteria->department_subcategory->critical }}"
                                                             action="perform"
-                                                            ref="{{ $critical_criteria->id }}"
-                                                            categoryId="{{ $subcategories_critical->department_category_id }}"
-                                                            id="perform_{{ $critical_criteria->id }}"
-                                                            name="perform_{{ $critical_criteria->id }}">
-                                                        <option value="yes">YES</option>
-                                                        <option value="no">NO</option>
-                                                        <option value="na">NA</option>
+                                                            ref="{{ $critical_evaluations->department_criteria->id }}"
+                                                            categoryId="{{ $critical_evaluations->department_category_id }}"
+                                                            id="perform_{{ $critical_evaluations->department_criteria->id }}"
+                                                            name="perform_{{ $critical_evaluations->department_criteria->id }}">
+                                                        <option value="yes" @if($critical_evaluations->perform == "yes") selected @endif>YES</option>
+                                                        <option value="no" @if($critical_evaluations->perform == "no") selected @endif>NO</option>
+                                                        <option value="na" @if($critical_evaluations->perform == "na") selected @endif>NA</option>
                                                     </select>
                                                 </td>
                                                 <td>
                                                     <textarea
                                                         class="form-control comment form-control-sm"
-                                                        categoryId="{{ $subcategories_critical->department_category_id }}"
-                                                        id="comments_criterias_{{ $critical_criteria->id }}"
-                                                        name="comments_criterias_{{ $critical_criteria->id }}"></textarea>
+                                                        categoryId="{{ $critical_evaluations->department_category_id }}"
+                                                        id="comments_criterias_{{  $critical_evaluations->department_criteria->id }}"
+                                                        name="comments_criterias_{{  $critical_evaluations->department_criteria->id }}">{{ $critical_evaluations->comments }}</textarea>
                                                 </td>
                                             </tr>
+                                            @endif
                                             @endforeach
                                             </tbody>
                                             </table>
@@ -230,7 +247,6 @@ Edi Employee Evaluation
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        {{-- @foreach($department_subcategories->department_criterias as $department_criteria) --}}
                                         @foreach($evaluation_points as $evaluations)
                                         @if($evaluations->department_criteria->department_subcategory->id == $department_subcategories->id)
                                         <tr>
@@ -291,7 +307,7 @@ Edi Employee Evaluation
                                                     class="form-control comment form-control-sm"
                                                     categoryId="{{ $evaluations->department_criteria->department_subcategory->department_category->id }}"
                                                     id="comments_criterias_{{ $evaluations->department_criteria_id }}"
-                                                    name="comments_criterias_{{ $evaluations->department_criteria_id }}"></textarea>
+                                                    name="comments_criterias_{{ $evaluations->department_criteria_id }}">{{ $evaluations->comments }}</textarea>
                                             </td>
                                         </tr>
                                         @endif

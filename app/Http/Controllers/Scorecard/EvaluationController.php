@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Evaluation;
+use App\Models\EvaluationPoint;
 use App\Models\Department;
 use App\Models\DepartmentCategory;
 use App\Models\Passrate;
@@ -66,7 +67,7 @@ class EvaluationController extends Controller
 
         try {
             Evaluation::create_evaluation($data);
-            return response()->json(['status' => 1, 'message' => 'Evaluation Created']);
+            return response()->json(['status' => 1, 'message' => 'Evaluation created']);
         } 
         catch (Exception $e) {
             return redirect()->route('evaluation')->with('error', $e->getMessage());
@@ -81,11 +82,11 @@ class EvaluationController extends Controller
         }
 
         $evaluation = Evaluation::where('id', $id)->first();
+        $evaluation_critical = EvaluationPoint::where('evaluation_id', $evaluation->id)->where('critical', 'yes')->get();
         $department = Department::where('id', $evaluation->department_id)->first();
         $users = User::where('department_id', $evaluation->department_id)->where('status', true)->orderBy('id', 'desc')->get(); 
         $evaluator = User::where('id', request()->session()->get('user_id'))->first();
         $department = Department::where('id', $evaluation->department_id)->first();
-        // $department_data = DepartmentCategory::getAllCriterias($evaluation->department_id);
 
         $eval_data = [];
 
@@ -94,17 +95,19 @@ class EvaluationController extends Controller
         $criterias = [];
 
         foreach ($evaluation->evaluation_points as $eval) {
-            $criteria = $eval->department_criteria;
-            $subcategory = $criteria->department_subcategory;
-            $category = $subcategory->department_category;
-            if (!key_exists($category->id, $categories)) {
-                $categories[$category->id] = $category;
-            }
-            if (!key_exists($subcategory->id, $subcategories)) {
-                $subcategories[$subcategory->id] = $subcategory;
-            }
-            if (!key_exists($criteria->id, $criterias)) {
-                $criterias[$criteria->id] = $criteria;
+            if($eval->critical !== "yes"){
+                $criteria = $eval->department_criteria;
+                $subcategory = $criteria->department_subcategory;
+                $category = $subcategory->department_category;
+                if (!key_exists($category->id, $categories)) {
+                    $categories[$category->id] = $category;
+                }
+                if (!key_exists($subcategory->id, $subcategories)) {
+                    $subcategories[$subcategory->id] = $subcategory;
+                }
+                if (!key_exists($criteria->id, $criterias)) {
+                    $criterias[$criteria->id] = $criteria;
+                }
             }
         }
         $eval_data = [
@@ -123,6 +126,7 @@ class EvaluationController extends Controller
             ->with('users', $users)
             ->with('evaluation', $evaluation)
             ->with('evaluation_points', $evaluation->evaluation_points)
+            ->with('evaluation_points_critical', $evaluation_critical)
             ->with('evaluator', $evaluator)
             ->with('department', $department)
             ->with('department_data', $department_data)
@@ -136,7 +140,15 @@ class EvaluationController extends Controller
 
     public function postUpdate(Request $request, int $id)
     {
-        
+        $data = $request->input('data');
+
+        try {
+            Evaluation::update_evaluation($id, $data, 2);
+            return redirect()->route('evaluation')->with('success', 'Evaluation updated.');
+        }
+        catch (Exception $e) {
+            return response()->json(['status' => 0, 'message' => $e->getMessage()]);
+        }
     }
 
 }

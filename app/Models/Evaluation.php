@@ -86,6 +86,56 @@ class Evaluation extends Model
         }
     }
 
+    public static function update_evaluation($id, $data, $status)
+    {
+        DB::beginTransaction();
+
+        Evaluation::updateEvaluation($id, $data, $status);
+        Evaluation::updateEvaluationPoints($id, $data, $status);
+        $action = 'update';
+
+        DB::commit();
+
+    }
+
+    private static function updateEvaluation($evaluation_id, $data, $status)
+    {
+        $evaluation = Evaluation::find($evaluation_id);
+        $evaluation->update([
+            'department_id' =>  $data['id']['department_id'],
+            'user_id' =>  $data['id']['user_id'],
+            'supervisor_id' =>  request()->session()->get('user_id'),
+            'date_of_audit' =>  Carbon::now(),
+            'total_score' =>  $data['score']['total_score'],
+            'result' =>  $data['result']['result'],
+            'remarks' =>  $data['remarks']['remarks'],
+            'updatedd_by' => request()->session()->get('user_id'),
+            'updated_at' => Carbon::now()
+        ]);
+
+        return redirect()->route('passrate')->with('success', 'Passrate updated.');
+    }
+
+    private static function updateEvaluationPoints($evaluation_id, $data, $status)
+    {
+        foreach ($data as $criteria_id => $data_list) {
+            if (isset($data_list['category_' . $criteria_id])) {
+                $point_achieved = $data_list['points_achieved_criterias_' . $criteria_id];
+                EvaluationPoint::where('evaluation_id', $evaluation_id)
+                    ->where('department_criteria_id', $criteria_id)
+                    ->update([
+                        'status' => $status,
+                        'points' => $point_achieved,
+                        'perform' => $data_list['perform_' . $criteria_id],
+                        'critical' => $data_list['is_critical_' . $criteria_id],
+                        'comments' => $data_list['comments_criterias_' . $criteria_id],
+                        'updated_by' => request()->session()->get('user_id'),
+                        'updated_at' => Carbon::now()
+                    ]);
+            }
+        }
+    }
+
     public function department()
     {
         return $this->belongsTo(Department::class);
