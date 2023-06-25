@@ -109,6 +109,7 @@ class Evaluation extends Model
             'total_score' =>  $data['score']['total_score'],
             'result' =>  $data['result']['result'],
             'remarks' =>  $data['remarks']['remarks'],
+            'status' =>  $data['status']['status'],
             'updatedd_by' => request()->session()->get('user_id'),
             'updated_at' => Carbon::now()
         ]);

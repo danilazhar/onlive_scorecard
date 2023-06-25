@@ -352,12 +352,29 @@ Edi Employee Evaluation
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">
-                                    Submit
-                                </button>
-                                <button type="button" class="btn btn-default">
-                                    Cancel
-                                </button>
+                                <div class="d-flex">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                        <select class="form-control" id="status" name="status">
+                                                <option value="0" {{ $evaluation->status == 0 ? 'selected' : false }}>Draft</option>    
+                                                <option value="1" {{ $evaluation->status == 1 ? 'selected' : false }}>Save</option>    
+                                                <option value="2" {{ $evaluation->status == 2 ? 'selected' : false }}>Approve</option>    
+                                                <option value="3" {{ $evaluation->status == 3 ? 'selected' : false }}>Reject</option>    
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">
+                                            Submit
+                                        </button>
+                                        <button type="button" class="btn btn-default">
+                                            Cancel
+                                        </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
                         <!-- /.card -->
