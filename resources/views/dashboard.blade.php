@@ -74,7 +74,7 @@
                         <tbody>
                         <thead>
                           <tr>
-                            <th>CaNametegory</th>
+                            <th>Name</th>
                             <th>Department</th>
                             <th>Points</th>
                           </tr>

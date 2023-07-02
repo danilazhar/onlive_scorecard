@@ -5,7 +5,7 @@
 @endsection
 
 @section('title')
-    Passrates List
+    Passing Scores List
 @endsection
 
 @section('content')

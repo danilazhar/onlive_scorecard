@@ -6,7 +6,7 @@
 @endsection
 
 @section('title')
-Create Passrate
+Create Passing Score
 @endsection
 
 @section('content')

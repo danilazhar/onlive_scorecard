@@ -37,22 +37,12 @@
                     <p>Departments</p>
                 </a>
             </li>
-            <li class="nav-item {{ (request()->is('scorecard/passrate*', 'scorecard/category*', 'scorecard/sub_category*', 'scorecard/criteria*')) ? 'menu-is-opening menu-open' : '' }}">
-                <a href="#" class="nav-link {{ (request()->is('scorecard/passrate*', 'scorecard/category*', 'scorecard/sub_category*', 'scorecard/criteria*')) ? 'menu-is-opening menu-open active' : '' }}">
+            <li class="nav-item {{ (request()->is('scorecard/category*', 'scorecard/sub_category*', 'scorecard/criteria*')) ? 'menu-is-opening menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->is('scorecard/category*', 'scorecard/sub_category*', 'scorecard/criteria*')) ? 'menu-is-opening menu-open active' : '' }}">
                 <i class="nav-icon fas fa-plus-square"></i>
                     <p>Scoresheet Setup</p>
                     <i class="right fas fa-angle-left"></i>
                 </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                    <a href="{{ route('passrate') }}" class="nav-link {{ (request()->is('scorecard/passrate*')) ? 'active' : '' }}">
-                        <span style="margin-left: 10px;">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Passing Score</p>
-                        </span>
-                    </a>
-                    </li>
-                </ul>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                     <a href="{{ route('category') }}" class="nav-link {{ (request()->is('scorecard/category*')) ? 'active' : '' }}">
@@ -84,10 +74,10 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item {{ (request()->is('scorecard/department/category*', 'scorecard/department/sub_category*', 'scorecard/department/criteria*')) ? 'menu-is-opening menu-open' : '' }}">
-                <a href="#" class="nav-link {{ (request()->is('scorecard/department/category*', 'scorecard/department/sub_category*', 'scorecard/department/criteria*')) ? 'menu-is-opening menu-open active' : '' }}">
+            <li class="nav-item {{ (request()->is('scorecard/department/category*', 'scorecard/department/sub_category*', 'scorecard/department/criteria*', 'scorecard/passrate*')) ? 'menu-is-opening menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->is('scorecard/department/category*', 'scorecard/department/sub_category*', 'scorecard/department/criteria*', 'scorecard/passrate*')) ? 'menu-is-opening menu-open active' : '' }}">
                 <i class="nav-icon fas fa-building"></i>
-                    <p>Department Setup</p>
+                    <p>Departmental Setup</p>
                     <i class="right fas fa-angle-left"></i>
                 </a>
                 <ul class="nav nav-treeview">
@@ -116,6 +106,16 @@
                         <span style="margin-left: 10px;">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Evaluation Criteria</p>
+                        </span>
+                    </a>
+                    </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <a href="{{ route('passrate') }}" class="nav-link {{ (request()->is('scorecard/passrate*')) ? 'active' : '' }}">
+                        <span style="margin-left: 10px;">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Passing Score</p>
                         </span>
                     </a>
                     </li>

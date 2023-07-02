@@ -6,7 +6,7 @@
 @endsection
 
 @section('title')
-Edit Passrate
+Edit Passing Score
 @endsection
 
 @section('content')

@@ -79,7 +79,7 @@ class RoleController extends Controller
     public function postUpdate(Request $request, int $id)
     {
 
-        $validator = $request->validate([
+        $validator = \Validator::make($request->all(), [
             'name' => 'required',
         ]);
 
