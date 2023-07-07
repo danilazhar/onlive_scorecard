@@ -8,7 +8,7 @@
           <img src="{{asset('assets/images/male-profile.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{request()->session()->get('user_name')}} - {{request()->session()->get('role_name')}}</a>
+          <a href="#" class="d-block">{{request()->session()->get('user_name')}} - {{(request()->session()->get('role_name') == 'System Administrator') ? 'System Admin' : request()->session()->get('role_name')}}</a>
         </div>
       </div>
 
