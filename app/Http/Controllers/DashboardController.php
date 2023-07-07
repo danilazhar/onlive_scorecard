@@ -17,6 +17,7 @@ class DashboardController extends Controller
             $userCount = User::where('status', '!=', '2')->count();
             $passCount = Evaluation::where('status', '2')->where('result', '1')->count();
             $evaluatedCount = Evaluation::where('status', '2')->count();
+            $recentEvaluations = Evaluation::where('status', '2')->limit(5)->orderBy('updated_at', 'desc')->get();
 
             $passPercentage = 0;
 
@@ -27,7 +28,8 @@ class DashboardController extends Controller
             return view('dashboard')
                 ->with('userCount', $userCount)
                 ->with('passPercentage', $passPercentage)
-                ->with('evaluatedCount', $evaluatedCount);
+                ->with('evaluatedCount', $evaluatedCount)
+                ->with('recentEvaluations', $recentEvaluations);
         }
 
         return redirect("/login");

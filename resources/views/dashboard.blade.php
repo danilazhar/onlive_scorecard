@@ -71,14 +71,22 @@
                 <div class="card-body p-0">
                     <div class="table-responsive table-striped">
                       <table class="table m-0">
-                        <tbody>
                         <thead>
                           <tr>
                             <th>Name</th>
                             <th>Department</th>
                             <th>Points</th>
                           </tr>
-                        </thead>      
+                        </thead>
+                        <tbody>
+                        @php $i=1; @endphp
+                        @foreach ($recentEvaluations as $evaluation)
+                            <tr>
+                              <td>{{ $i++ }}</td>
+                              <td>{{ $evaluation->user-name }}</td>
+                              <td>{{ $evaluation->total_score }}</td>
+                            </tr>
+                        @endforeach
                         </tbody>
                       </table>
                     </div>

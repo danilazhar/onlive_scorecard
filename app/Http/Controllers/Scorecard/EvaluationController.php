@@ -42,6 +42,10 @@ class EvaluationController extends Controller
         $users = User::where('department_id', $request->get('department'))->where('status', true)->orderBy('id', 'desc')->get(); 
         $evaluator = User::where('id', request()->session()->get('user_id'))->first();
         $department = Department::where('id', $request->get('department'))->first();
+        $checkDepartmentCriteria = DepartmentCategory::where('department_id', $request->get('department'))->count();
+        if($checkDepartmentCriteria < 1){
+            return redirect("/scorecard/evaluation")->with('error', 'Scoresheet was not setup for this department');
+        }
         $department_data = DepartmentCategory::getAllCriterias($request->get('department'));
         $category_listing = DepartmentCategory::getCategoryForAllCriteria($request->get('department'));
         $department_critical_category = DepartmentCategory::getAllCriticalCriterias($request->get('department'));
