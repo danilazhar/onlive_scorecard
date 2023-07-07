@@ -143,8 +143,8 @@ class EvaluationController extends Controller
         $data = $request->input('data');
 
         try {
-            Evaluation::update_evaluation($id, $data, 2);
-            return redirect()->route('evaluation')->with('success', 'Evaluation updated.');
+            Evaluation::update_evaluation($id, $data);
+            return response()->json(['status' => 1, 'message' => 'Evaluation updated']);
         }
         catch (Exception $e) {
             return response()->json(['status' => 0, 'message' => $e->getMessage()]);

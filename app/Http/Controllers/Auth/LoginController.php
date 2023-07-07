@@ -33,7 +33,9 @@ class LoginController extends Controller
 
                 $request->session()->put([
                     'user_id'=> $user->id,
+                    'user_name'=> $user->name,
                     'role_id'=> $user->role_id,
+                    'role_name'=> $user->role->name,
                     'department_id'=> $user->department_id,
                     'is_verified'=> $user->is_verified,
                 ]);

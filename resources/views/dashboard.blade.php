@@ -15,7 +15,7 @@
             <div class="col-lg-4 col-6">
               <div class="small-box bg-warning">
                   <div class="inner">
-                      <h3>10</h3>
+                      <h3>{{ $userCount }}</h3>
                       <p>Total Users</p>
                   </div>
                   <div class="icon">
@@ -26,7 +26,7 @@
             <div class="col-lg-4 col-6">
               <div class="small-box bg-primary">
                 <div class="inner">
-                  <h3>98%</h3>
+                  <h3>{{ $passPercentage }}%</h3>
                   <p>Passing Percentage</p>
                 </div>
                 <div class="icon">
@@ -37,7 +37,7 @@
             <div class="col-lg-4 col-6">
               <div class="small-box bg-danger">
                 <div class="inner">
-                  <h3>5 / 10</h3>
+                  <h3>{{ $evaluatedCount }} / {{ $userCount }}</h3>
                   <p>Total Evaluated</p>
                 </div>
                 <div class="icon">

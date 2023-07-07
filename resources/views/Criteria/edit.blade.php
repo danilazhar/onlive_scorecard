@@ -32,7 +32,7 @@ Edit Criteria
                                     <select class="form-control" id="category" name="category" data-url="{{ url('/scorecard/selected_category/') }}">
                                         <option value="" selected="selected">--Please Select--</option>      
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}" {{ $criteria->sub_category->category_id == $category->id ? 'selected' : false }}>{{ $category->name }}</option>
+                                            <option value="{{ $category->id }}" {{ $criteria->subcategory->category_id == $category->id ? 'selected' : false }}>{{ $category->name }}</option>
                                         @endforeach                                    
                                     </select>
                                     <span class="error invalid-feedback">{{ $errors->first('category') }}</span>
@@ -44,7 +44,7 @@ Edit Criteria
                                     <select class="form-control {{ $errors->has('sub_category') ? 'is-invalid' : null }}" id="sub_category" name="sub_category">
                                         <option value="" selected="selected">--Please Select--</option>      
                                         @foreach ($sub_categories as $sub_category)
-                                            <option value="{{ $sub_category->id }}" {{ $criteria->sub_category_id == $sub_category->id ? 'selected' : false }}>{{ $sub_category->name }}</option>
+                                            <option value="{{ $sub_category->id }}" {{ $criteria->subcategory_id == $sub_category->id ? 'selected' : false }}>{{ $sub_category->name }}</option>
                                         @endforeach                                    
                                     </select>
                                     <span class="error invalid-feedback">{{ $errors->first('sub_category') }}</span>

@@ -114,7 +114,7 @@ function calculateDataCriticalPoints(isCriticalPerformNo) {
 
         // Check if perform "no" is existed for final score
         let isCriticalPerformNo = false;
-        $(".custom-select[data-critical='yes']").each(function () {
+        $(".is-perform[data-critical='yes']").each(function () {
             if ($(this).val() === "no") {
                 isCriticalPerformNo = true;
                 return false
@@ -161,7 +161,7 @@ function calculateDataCriticalPoints(isCriticalPerformNo) {
 
     });
 
-    $('body').off('submit', '#new-evaluation-form').on('submit', '#new-evaluation-form, #edit-evaluation-form', function (e) {
+    $('body').off('submit', '#new-evaluation-form, #edit-evaluation-form').on('submit', '#new-evaluation-form, #edit-evaluation-form', function (e) {
         e.preventDefault();
 
         let url = $(this).attr('action');

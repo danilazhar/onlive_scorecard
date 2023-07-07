@@ -86,19 +86,19 @@ class Evaluation extends Model
         }
     }
 
-    public static function update_evaluation($id, $data, $status)
+    public static function update_evaluation($id, $data)
     {
         DB::beginTransaction();
 
-        Evaluation::updateEvaluation($id, $data, $status);
-        Evaluation::updateEvaluationPoints($id, $data, $status);
+        Evaluation::updateEvaluation($id, $data);
+        Evaluation::updateEvaluationPoints($id, $data);
         $action = 'update';
 
         DB::commit();
 
     }
 
-    private static function updateEvaluation($evaluation_id, $data, $status)
+    private static function updateEvaluation($evaluation_id, $data)
     {
         $evaluation = Evaluation::find($evaluation_id);
         $evaluation->update([
@@ -110,14 +110,14 @@ class Evaluation extends Model
             'result' =>  $data['result']['result'],
             'remarks' =>  $data['remarks']['remarks'],
             'status' =>  $data['status']['status'],
-            'updatedd_by' => request()->session()->get('user_id'),
+            'updated_by' => request()->session()->get('user_id'),
             'updated_at' => Carbon::now()
         ]);
 
         return redirect()->route('passrate')->with('success', 'Passrate updated.');
     }
 
-    private static function updateEvaluationPoints($evaluation_id, $data, $status)
+    private static function updateEvaluationPoints($evaluation_id, $data)
     {
         foreach ($data as $criteria_id => $data_list) {
             if (isset($data_list['category_' . $criteria_id])) {
@@ -125,7 +125,6 @@ class Evaluation extends Model
                 EvaluationPoint::where('evaluation_id', $evaluation_id)
                     ->where('department_criteria_id', $criteria_id)
                     ->update([
-                        'status' => $status,
                         'points' => $point_achieved,
                         'perform' => $data_list['perform_' . $criteria_id],
                         'critical' => $data_list['is_critical_' . $criteria_id],

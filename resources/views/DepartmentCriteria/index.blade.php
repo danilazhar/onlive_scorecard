@@ -18,7 +18,7 @@
                         <h3 class="card-title">List of Criterias</h3>
                     </div>
                     <div class="col-md-3 text-md-right">
-                        @if(request()->session()->get('role_id') == 1)
+                        @if(request()->session()->get('role_id') == 3)
                         <a href="{{ route('department_criteria.create') }}" class="btn btn-success create"><i class="fas fa-plus-circle nav-icon pr-2"></i>Add</a>
                         @endif
                     </div>

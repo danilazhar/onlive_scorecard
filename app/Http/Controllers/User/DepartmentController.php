@@ -33,7 +33,7 @@ class DepartmentController extends Controller
     public function postCreate(Request $request)
     {
 
-        $validator = $request->validate([
+        $validator = \Validator::make($request->all(), [
             'name' => 'required',
         ]);
 

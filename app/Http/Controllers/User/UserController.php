@@ -45,12 +45,13 @@ class UserController extends Controller
     public function postCreate(Request $request)
     {
 
-        $validator = $request->validate([
+        $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'role' => 'required',
             'department' => 'required',
             'email' => 'required',
         ]);
+
 
         if($validator->fails()) {
             return redirect()->route('user')
@@ -134,6 +135,7 @@ class UserController extends Controller
                     'email' =>  $request->get('email'),
                     'role_id' => $request->get('role'),
                     'department_id' => $request->get('department'),
+                    'status' => $request->get('status'),
                     'updated_by' => request()->session()->get('user_id'),
                 ]);
 

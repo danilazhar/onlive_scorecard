@@ -19,7 +19,7 @@ Edi Employee Evaluation
             </div>
         </div>
     @endif
-    <form action="{{ route('evaluation.postUpdate', ['id' => $evaluation->id]) }}"  id="edit-evaluation-form" method="POST">
+    <form action="{{ route('evaluation.postUpdate', ['id' => $evaluation->id]) }}" returnUrl="{{ route('evaluation') }}"  id="edit-evaluation-form" method="POST">
     <input type="hidden" id="passrate" name="passrate"
                value="{{$passrate}}"/>
     <input type="hidden" id="evaluation_id" name="evaluation_id" value="{{$evaluation->id}}"/>
@@ -103,18 +103,26 @@ Edi Employee Evaluation
                                                 Final Score
                                             </th>
                                             <td>
-                                                <span class="final" ref="final">100%</span>
+                                                <span class="final" ref="final">{{ $evaluation->total_score }}</span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">
                                                 OVERALL STATUS
                                             </th>
+                                            @if($evaluation->result)
                                             <td>
                                                 <div id="passlabel" class="alert alert-success" role="alert">
                                                     <b>Passed</b>
                                                 </div>
                                             </td>
+                                            @else
+                                            <td>
+                                                <div id="passlabel" class="alert alert-danger" role="alert">
+                                                    <b>Failed</b>
+                                                </div>
+                                            </td>
+                                            @endif
                                         </tr>
                                         </tbody>
                                     </table>
@@ -171,7 +179,7 @@ Edi Employee Evaluation
                                                 </td>
                                                 <td class="sm">
                                                     <input type="text"
-                                                            categoryId="{{ $critical_evaluations->department_category_id }}"
+                                                            categoryId="{{ $subcategories_critical->department_category_id }}"
                                                             id="points_criterias_{{ $critical_evaluations->id }}"
                                                             name="points_criterias_{{ $critical_evaluations->id }}"
                                                             class="form-control form-control-sm points_criterias hide"
@@ -181,7 +189,7 @@ Edi Employee Evaluation
                                                 </td>
                                                 <td class="sm">
                                                     <input type="text"
-                                                            categoryId="{{ $critical_evaluations->department_category_id }}"
+                                                            categoryId="{{ $subcategories_critical->department_category_id }}"
                                                             id="points_achieved_criterias_{{ $critical_evaluations->id }}"
                                                             name="points_achieved_criterias_{{ $critical_evaluations->id }}"
                                                             class="form-control form-control-sm points_achieved_criterias hide"
@@ -195,7 +203,7 @@ Edi Employee Evaluation
                                                             data-critical="{{ $critical_evaluations->department_criteria->department_subcategory->critical }}"
                                                             action="perform"
                                                             ref="{{ $critical_evaluations->department_criteria->id }}"
-                                                            categoryId="{{ $critical_evaluations->department_category_id }}"
+                                                            categoryId="{{ $subcategories_critical->department_category_id }}"
                                                             id="perform_{{ $critical_evaluations->department_criteria->id }}"
                                                             name="perform_{{ $critical_evaluations->department_criteria->id }}">
                                                         <option value="yes" @if($critical_evaluations->perform == "yes") selected @endif>YES</option>
@@ -206,7 +214,7 @@ Edi Employee Evaluation
                                                 <td>
                                                     <textarea
                                                         class="form-control comment form-control-sm"
-                                                        categoryId="{{ $critical_evaluations->department_category_id }}"
+                                                        categoryId="{{ $subcategories_critical->department_category_id }}"
                                                         id="comments_criterias_{{  $critical_evaluations->department_criteria->id }}"
                                                         name="comments_criterias_{{  $critical_evaluations->department_criteria->id }}">{{ $critical_evaluations->comments }}</textarea>
                                                 </td>
@@ -345,7 +353,7 @@ Edi Employee Evaluation
                                             <textarea
                                                 class="form-control remarks form-control-sm"
                                                 id="remarks"
-                                                name="remarks"></textarea>
+                                                name="remarks">{{ $evaluation->remarks; }}</textarea>
                                             <span class="error invalid-feedback">{{ $errors->first('remarks') }}</span>
                                         </div>
                                     </div>
@@ -388,5 +396,12 @@ Edi Employee Evaluation
     </form>
 @endsection
 @section('footer-script')
+<script>
+    $(".is-perform[data-critical='yes']").each(function() {
+    if ($(this).val() === "no") {
+        $(".total-critical[ref^='category-" + $(this).attr("categoryid") + "']").text("0%");
+    }
+    });
+</script>
     <script src="{{ asset('assets/js/Evaluation.js') }}"></script>
 @endsection

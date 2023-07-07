@@ -58,7 +58,7 @@ Edit Department Evaluation Sub Category
                                     <select class="form-control {{ $errors->has('sub_category') ? 'is-invalid' : null }}" id="sub_category" name="sub_category">
                                         <option value="" selected="selected">--Please Select--</option>   
                                         @foreach ($sub_categories as $sub_category)
-                                            <option value="{{ $sub_category->id }}" {{ $subcategory->sub_category_id == $sub_category->id ? 'selected' : false }}>{{ $sub_category->name }}</option>
+                                            <option value="{{ $sub_category->id }}" {{ $subcategory->subcategory_id == $sub_category->id ? 'selected' : false }}>{{ $sub_category->name }}</option>
                                         @endforeach                               
                                     </select>
                                     <span class="error invalid-feedback">{{ $errors->first('sub_category') }}</span>
